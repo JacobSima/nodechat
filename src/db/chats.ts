@@ -1,5 +1,5 @@
 import mongoose from "mongoose";
-import { Message } from "../types/interfaces";
+import { Message } from "../typings/ms";
 
 const Schema = mongoose.Schema;
 
@@ -17,11 +17,11 @@ export const ChatModel = mongoose.model('Chat', ChatSchema);
 
 export const getMessages = async() => {
   const chat = await ChatModel.findOne();
-  return chat.messages;
+  return chat!.messages;
 };
 export const getSingleMessage = async(messageId: string) => {
   const chat = await ChatModel.findOne();
-  const message = chat.messages.id(messageId);
+  const message = chat!.messages.id(messageId);
   return message;
 };
 export const getSingleChat = () => ChatModel.findOne();
@@ -32,22 +32,22 @@ export const createChat = (values: Record<string, any>) => new ChatModel(values)
   });
 export const addMessage = async (message: Message) => {
   const chat = await ChatModel.findOne();
-  chat.messages.push(message);
-  await chat.save();
-  return chat.messages;
+  chat!.messages.push(message);
+  await chat!.save();
+  return chat!.messages;
 };
 
 export const updateMessage = async (messageId: string, content: string) => {
   const chat = await ChatModel.findOne();
-  const message = chat.messages.id(messageId);
-  message.content = content;
-  await chat.save();
-  return message.toObject();
+  const message = chat!.messages.id(messageId);
+  message!.content = content;
+  await chat!.save();
+  return message!.toObject();
 };
 
 export const deleteMessage = async (messageId: string) => {
   const chat = await ChatModel.findOne();
-  const messageIndex = chat.messages.findIndex(message => message._id.equals(messageId));
-  chat.messages.splice(messageIndex, 1);
-  await chat.save();
+  const messageIndex = chat!.messages.findIndex(message => message._id!.equals(messageId));
+  chat!.messages.splice(messageIndex, 1);
+  await chat!.save();
 };

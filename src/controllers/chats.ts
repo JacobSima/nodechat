@@ -1,6 +1,6 @@
 import express from 'express';
 import { getMessages, addMessage, getSingleChat, getSingleMessage, updateMessage, deleteMessage } from "../db/chats";
-import { Message } from "../types/interfaces";
+import { Message } from "../typings/ms";
 import { get } from 'lodash';
 
 export const getChatMessages = async(req: express.Request, res: express.Response) => {
@@ -17,6 +17,9 @@ export const sendChatMessages = async(req: express.Request, res: express.Respons
   try{
     const { content} = req.body;
     const currentUserId = get(req, 'identity._id');
+    if (!currentUserId) 
+      return res.sendStatus(403); 
+
     const message: Message = {
       sender: currentUserId,
       content

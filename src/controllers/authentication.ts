@@ -48,16 +48,16 @@ export const login = async(req: express.Request, res: express.Response) => {
     if(!user)
       return res.sendStatus(400);
 
-    const expectedHash = authentication(user.authentication.salt, password);
-    if(user.authentication.password !== expectedHash)
+    const expectedHash = authentication(user.authentication!.salt!, password);
+    if(user.authentication!.password !== expectedHash)
       return res.sendStatus(403);
 
     const salt = random();
-    user.authentication.sessionToken = authentication(salt, user._id.toString());
+    user.authentication!.sessionToken = authentication(salt, user._id.toString());
 
     await user.save();
 
-    res.cookie('NODECHAT-AUTH', user.authentication.sessionToken,{
+    res.cookie('NODECHAT-AUTH', user.authentication!.sessionToken,{
       domain: 'localhost',
       path: '/'
     });
@@ -81,7 +81,7 @@ export const logout = async(req: express.Request, res: express.Response) => {
     if(!user)
       return res.sendStatus(400);
   
-    user.authentication.sessionToken = '';
+    user.authentication!.sessionToken = '';
     await user.save();
 
     return res.status(200).json().end();

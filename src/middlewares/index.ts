@@ -30,7 +30,7 @@ export const isUserOwner = async(req: express.Request, res: express.Response, ne
 
   try {
     const { id } = req.params;
-    const currentUserId = get(req, 'identity._id') as string;
+    const currentUserId = get(req, 'identity._id') as string | undefined;
     
     if(!currentUserId)
       return res.sendStatus(403);
@@ -50,7 +50,7 @@ export const isChatOwner = async(req: express.Request, res: express.Response, ne
 
   try {
     const { id } = req.params;
-    const currentUserId = get(req, 'identity._id') as string;
+    const currentUserId = get(req, 'identity._id') as string | undefined;
     
     if(!currentUserId)
       return res.sendStatus(403);

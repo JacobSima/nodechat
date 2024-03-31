@@ -4,6 +4,7 @@
   "description": "",
   "main": "index.js",
   "scripts": {
+    "copy-dts": "copyfiles -u 1 \"src/**/*.d.ts\" build",
     "test": "echo \"Error: no test specified\" && exit 1",
     "start": "nodemon"
   },
